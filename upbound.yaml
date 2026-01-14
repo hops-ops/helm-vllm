@@ -1,0 +1,24 @@
+apiVersion: meta.dev.upbound.io/v2alpha1
+kind: Project
+metadata:
+  name: helm-vllm
+spec:
+  dependsOn:
+  - apiVersion: pkg.crossplane.io/v1
+    kind: Provider
+    package: xpkg.crossplane.io/crossplane-contrib/provider-helm
+    version: '>=v1.0.6'
+  - apiVersion: pkg.crossplane.io/v1
+    kind: Function
+    package: xpkg.crossplane.io/crossplane-contrib/function-auto-ready
+    version: '>=v0.6.0'
+  description: Installs the vLLM production stack Helm chart with a minimal, stable
+    interface.
+  license: Apache-2.0
+  maintainer: Patrick Lee Scott <pat@patscott.io>
+  readme: |
+    # helm-vllm
+
+    Installs the vLLM production stack Helm chart using Crossplane and the Helm provider.
+  repository: ghcr.io/hops-ops/helm-vllm
+  source: github.com/hops-ops/helm-vllm

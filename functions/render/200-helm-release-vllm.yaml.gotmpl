@@ -1,0 +1,44 @@
+# code: language=yaml
+#
+# Helm release for vLLM production stack
+#
+# vLLM production stack provides:
+# - Scalable LLM inference on Kubernetes
+# - OpenAI-compatible API
+# - GPU resource management
+# - Autoscaling support
+#
+
+{{- $v := $state.vllm }}
+
+---
+apiVersion: helm.m.crossplane.io/v1beta1
+kind: Release
+metadata:
+  name: {{ $v.releaseName }}
+  annotations:
+    {{ setResourceNameAnnotation "helm-release-vllm" }}
+  labels: {{ $v.labels | toJson }}
+spec:
+  managementPolicies: {{ $v.managementPolicies | toJson }}
+  forProvider:
+    chart:
+      name: vllm-stack
+      repository: https://vllm-project.github.io/production-stack
+      version: "0.1.8"
+    namespace: {{ $v.namespace }}
+    {{- if $v.overrideAllValues }}
+    values:
+      {{- toYaml $v.overrideAllValues | nindent 6 }}
+    {{- else }}
+    values:
+      fullnameOverride: vllm
+      nameOverride: vllm
+      {{- if $v.values }}
+      {{- toYaml $v.values | nindent 6 }}
+      {{- end }}
+    {{- end }}
+  rollbackLimit: 3
+  providerConfigRef:
+    name: {{ $v.providerConfigRef.name }}
+    kind: {{ $v.providerConfigRef.kind }}

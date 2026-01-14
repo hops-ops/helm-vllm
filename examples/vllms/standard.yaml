@@ -1,0 +1,17 @@
+apiVersion: helm.hops.ops.com.ai/v1alpha1
+kind: VLLM
+metadata:
+  name: vllm
+  namespace: example-env
+spec:
+  clusterName: example-cluster
+  labels:
+    team: ml-platform
+  namespace: vllm
+  values:
+    servingEngineSpec:
+      runtimeClassName: nvidia
+      modelSpec:
+        - name: llama-3
+          repository: meta-llama/Llama-3.2-1B-Instruct
+          gpu: 1

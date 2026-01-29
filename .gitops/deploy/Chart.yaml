@@ -2,4 +2,4 @@ apiVersion: v2
 name: helm-vllm
 version: 0.0.0
 description: GitOps packaging for the vLLM Crossplane configuration
-appVersion: 0.1.8
+appVersion: 0.1.9
